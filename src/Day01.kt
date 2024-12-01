@@ -1,21 +1,38 @@
+import kotlin.math.abs
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
-
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
-
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
-
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    // Read the input from the `src/Day01.txt` file.
     val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    val leftList: MutableList<Int> = mutableListOf()
+    val rightList: MutableList<Int> = mutableListOf()
+
+    for (line in input) {
+        leftList.add(line.split("   ")[0].toInt())
+        rightList.add(line.split("   ")[1].toInt())
+    }
+
+    leftList.sort()
+    rightList.sort()
+
+    fun part1(): Int {
+        var result = 0
+
+        for (i in 0..<leftList.count()) {
+            result += abs(leftList[i] - rightList[i])
+        }
+
+        return result
+    }
+
+    fun part2(): Int {
+        var result = 0
+
+        for (i in 0..<leftList.count()) {
+            result += leftList[i] * rightList.count { it == leftList[i] }
+        }
+
+        return result
+    }
+    
+    part1().println()
+    part2().println()
 }
